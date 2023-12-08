@@ -8,6 +8,8 @@
             "wasm": ".azle/uploads/uploads.wasm",
             "gzip": true
         }
-    }
+    },
+    "output_env_file": ".env",
+    "version" :1
 }
 
