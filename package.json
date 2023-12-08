@@ -10,7 +10,7 @@
         "canister_call_set_message": "dfx canister call uploads setMessage '(\"Hello world!\")'"
     },
     "dependencies": {
+        "18": "^0.0.0",
         "azle": "0.18.6"
     }
 }
-

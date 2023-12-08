@@ -1,56 +1,55 @@
 import { Canister, query, text, update, None, Opt, ic, nat64, Vec, StableBTreeMap, Record } from 'azle';
 import { v4 as uuidv4 } from 'uuid';
 
-const Message = Record({
+const Ticket = Record({
     id:text,
-    email: text,
-    language1: text,
-    language2: text,
-    comment: text,
-    attachmentURL: text,
+    assignee: text,
+    description: text,
+    createdBy: text,
+    
     createdAt: nat64,
     updatedAt: Opt(nat64),
   });
 
-  type Message = typeof Message;
+  type Ticket = typeof Ticket;
 
-  const MessagePayload = Record({
+  const TicketPayload = Record({
     email: text,
-    language1: text,
-    language2: text,
-    comment: text,
-    attachmentURL: text,
+    assignee: text,
+    description: text,
+    createdBy: text,
+    
   });
 
-  type MessagePayload = typeof MessagePayload;
-  let messageStorage = StableBTreeMap<text, Message>(text, Message, 0);
+  type TicketPayload = typeof TicketPayload;
+  let TicketStorage = StableBTreeMap(text, Ticket, 0);
   
-//   let messageStorage = new StableBTreeMap<string, Message>(0, 44, 1024);
-// let message = '';
+//   let TicketStorage = new StableBTreeMap<string, Ticket>(0, 44, 1024);
+// let Ticket = '';
 
 export default Canister({
     // Query calls complete quickly because they do not go through consensus
-    getMessages: query([], Vec(Message), () => {
-        return messageStorage.values();
+    getTickets: query([], Vec(Ticket), () => {
+        return TicketStorage.values();
       }),
-    getMessage: query([text], Opt(Message), (id) => {
-        return messageStorage.get(id);
+    getTicket: query([text], Opt(Ticket), (id) => {
+        return TicketStorage.get(id);
       }),
     // Update calls take a few seconds to complete
     // This is because they persist state changes and go through consensus
-    addMessage: update([MessagePayload], Message, (payload) => {
-        const message: Message = {
+    addTicket: update([TicketPayload], Ticket, (payload) => {
+        const Ticket: Ticket = {
           id: uuidv4(),
           createdAt: ic.time(),
           updatedAt: None,
           ...payload,
         };
-        messageStorage.insert(message.id, message);
-        return message;
+        TicketStorage.insert(Ticket.id, Ticket);
+        return Ticket;
       }),
 
-      deleteMessage: update([text], Opt(Message), (id) => {
-        return messageStorage.remove(id);
+      deleteTicket: update([text], Opt(Ticket), (id) => {
+        return TicketStorage.remove(id);
       }),
 });
 
