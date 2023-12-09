@@ -1,55 +1,54 @@
 import { Canister, query, text, update, None, Opt, ic, nat64, Vec, StableBTreeMap, Record } from 'azle';
 import { v4 as uuidv4 } from 'uuid';
 
-const Ticket = Record({
+const AnimalStockKeeper = Record({
     id:text,
-    assignee: text,
-    description: text,
+    animalName: text,
+    animalDescription: text,
     createdBy: text,
     
     createdAt: nat64,
     updatedAt: Opt(nat64),
   });
 
-  type Ticket = typeof Ticket;
+  type AnimalStockKeeper = typeof ;AnimalStockKeeper
 
-  const TicketPayload = Record({
-    email: text,
-    assignee: text,
-    description: text,
+  const AnimalStockKeeperPayload = Record({
+      
+     animalName: text,
+    animalDescription: text,
     createdBy: text,
     
   });
 
-  type TicketPayload = typeof TicketPayload;
-  let TicketStorage = StableBTreeMap(text, Ticket, 0);
+  type AnimalStockKeeperPayload  = typeof AnimalStockKeeperPayload;
+  let AnimalStockKeeperStorage = StableBTreeMap(text,AnimalStockKeeper, 0);
   
-//   let TicketStorage = new StableBTreeMap<string, Ticket>(0, 44, 1024);
-// let Ticket = '';
+
 
 export default Canister({
     // Query calls complete quickly because they do not go through consensus
     getTickets: query([], Vec(Ticket), () => {
         return TicketStorage.values();
       }),
-    getTicket: query([text], Opt(Ticket), (id) => {
-        return TicketStorage.get(id);
+    getAnimalStockKeeper: query([text], Opt(AnimalStockKeeper), (id) => {
+        return AnimalStockKeeperStorage.get(id);
       }),
     // Update calls take a few seconds to complete
     // This is because they persist state changes and go through consensus
-    addTicket: update([TicketPayload], Ticket, (payload) => {
-        const Ticket: Ticket = {
+    addAnimalStockKeeper: update([AnimalStockKeeperPayload], AnimalStockKeeper, (payload) => {
+        const AnimalStockKeeper: AnimalStockKeeper = {
           id: uuidv4(),
           createdAt: ic.time(),
           updatedAt: None,
           ...payload,
         };
-        TicketStorage.insert(Ticket.id, Ticket);
-        return Ticket;
+        AnimalStockKeeperStorage.insert(AnimalStockKeeper.id, AnimalStockKeeper);
+        return AnimalStockKeeper;
       }),
 
-      deleteTicket: update([text], Opt(Ticket), (id) => {
-        return TicketStorage.remove(id);
+      deleteAnimalStockKeeper: update([text], Opt(AnimalStockKeeper), (id) => {
+        return AnimalStockKeeperStorage.remove(id);
       }),
 });
 
