@@ -1,6 +1,8 @@
 service: () -> {
-    addAnimalStockKeeper: (record {attachmentURL:text; language1:text; language2:text; email:text; comment:text}) -> (record {id:text; attachmentURL:text; createdAt:nat64; language1:text; language2:text; email:text; comment:text; updatedAt:opt nat64});
-    deleteAnimalStockKeeper: (text) -> (opt record {id:text; attachmentURL:text; createdAt:nat64; language1:text; language2:text; email:text; comment:text; updatedAt:opt nat64});
-    getAnimalStockKeeper: (text) -> (opt record {id:text; attachmentURL:text; createdAt:nat64; language1:text; language2:text; email:text; comment:text; updatedAt:opt nat64}) query;
-    getAnimalStockKeeper: () -> (vec record {id:text; attachmentURL:text; createdAt:nat64; language1:text; language2:text; email:text; comment:text; updatedAt:opt nat64}) query;
+    addAnimalStockKeeper: (record { animalDescription:text;createdBy:text;animalName:text}) -> (record {id:text; createdAt:nat64; animalDescription:text;createdBy:text;animalName:text; updatedAt:opt nat64});
+    deleteAnimalStockKeeper: (text) -> (opt record {id:text;createdAt:nat64; animalDescription:text;createdBy:text;animalName:text;updatedAt:opt nat64});
+    getAnimalStockKeeper: (text) -> (opt record {id:text;createdAt:nat64; animalDescription:text;createdBy:text;animalName:text;updatedAt:opt nat64}) query;
+    getAnimalStockKeeper: () -> (vec record {id:text; createdAt:nat64; animalDescription:text;createdBy:text;animalName:text;updatedAt:opt nat64}) query;
 }
+
+
